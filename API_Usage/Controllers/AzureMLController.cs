@@ -44,7 +44,7 @@ namespace API_Usage.Controllers
         };
 
         // Replace the API_KEY and BASE_ADDRESS with the values provided in class for the service
-        //const string apiKey = "API_KEY";
+        const string apiKey = "API_KEY";
         //client.BaseAddress = new Uri("BASE_ADRESS");
 
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);

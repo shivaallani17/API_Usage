@@ -31,4 +31,41 @@ namespace API_Usage.Models
     public string Message { get; set; }
     public string JsonObject { get; set; }
   }
+    public class CompaniesNews
+    {
+        public List<Company> Companies { get; set; }
+
+        public News news { get; set; }
+
+        public CompaniesNews(List<Company> companies, News newss
+                                          )
+        {
+            Companies = companies;
+            news = newss;
+        }
+       
+    }
+    public class CompaniestoInvest
+    {
+        public List<Company> Companies { get; set; }
+
+        public StockstoInvest stockstoinvest{ get; set; }
+        public CompaniestoInvest(List<Company> companies, StockstoInvest stocks)
+        {
+            Companies = companies;
+            stockstoinvest = stocks;
+            if (stockstoinvest.latestPrice < ((stockstoinvest.week52Low * 150) / 100))
+            {
+                stockstoinvest.decision = "safe to invest";
+            }
+            else
+            {
+               stockstoinvest.decision  = "not safe to invest";
+            }
+
+
+        }
+
+    }
+    
 }

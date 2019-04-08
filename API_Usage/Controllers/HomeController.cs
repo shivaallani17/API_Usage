@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Linq;
+using System.ComponentModel;
+ 
 
 /*
  * Acknowledgments
@@ -75,9 +77,11 @@ namespace API_Usage.Controllers
     /// <param name="symbol"></param>
     /// <returns></returns>
     public IActionResult Chart(string symbol)
-    {
-      //Set ViewBag variable first
-      ViewBag.dbSuccessChart = 0;
+        {
+            Console.WriteLine("CHart function called");
+
+            //Set ViewBag variable first
+            ViewBag.dbSuccessChart = 0;
       List<Equity> equities = new List<Equity>();
 
       if (symbol != null)
@@ -262,7 +266,133 @@ namespace API_Usage.Controllers
       ViewBag.dbSuccessComp = 1;
       return View("Symbols", companies);
     }
+public IActionResult News(string symbol)
+        {
+            // string IEXTrading_API_PATH = BASE_URL + "stock/" + symbol + "news";
+            Console.WriteLine("News function called"+symbol);
 
+            ViewBag.dbSuccessChart = 0;
+            // List<News> newslist = new List<News>();
+            News news = new News();
+            if(symbol != null)
+{
+                news = GetNews(symbol);
+            }
+            foreach (PropertyDescriptor descriptor in TypeDescriptor.GetProperties(news))
+            {
+                string name = descriptor.Name;
+                object value = descriptor.GetValue(news);
+                Console.WriteLine("{0}={1}", name, value);
+            }
+            CompaniesNews companiesNews = getCompaniesNews(news);
+
+
+            return View(companiesNews);
+        }
+        public News GetNews(string symbol)
+        {
+            Console.WriteLine("GetNews function called");
+
+            string IEXTrading_API_PATH = BASE_URL + "stock/" + symbol + "/news";
+            Console.WriteLine(IEXTrading_API_PATH);
+            string newsstring = "";
+            News newsobj = new News();
+           // List<News> newslist = new List<News>();
+
+            httpClient.BaseAddress = new Uri(IEXTrading_API_PATH);
+            HttpResponseMessage response = httpClient.GetAsync(IEXTrading_API_PATH).GetAwaiter().GetResult();
+            if (response.IsSuccessStatusCode)
+            {
+                newsstring = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+            }
+            // newsstring=newsstring.Replace("["," ");
+            // newsstring=newsstring.Replace("]"," ");
+            
+
+            if (!newsstring.Equals(""))
+            {
+                int start = newsstring.IndexOf("{");
+                int end = newsstring.IndexOf("}");
+                if (start>0)
+                {
+                    newsstring = newsstring.Substring(start, end);
+                    newsobj = JsonConvert.DeserializeObject<News>(newsstring);
+                    
+                }
+
+                // newsobj = JsonConvert.DeserializeObject<News>(newsstring,
+                //new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+               // newsobj = JsonConvert.DeserializeObject<News>(newsstring);
+                
+            }
+
+            // News.symbol = symbol;
+            
+           
+
+            return newsobj;
+        }
+
+        public CompaniesNews getCompaniesNews(News news)
+        {
+            List<Company> companies = dbContext.Companies.ToList();
+
+          /*  if (equities.Count == 0)
+            {
+                return new CompaniesEquities(companies, null, "", "", "", 0, 0);
+            }*/
+
+            
+
+           
+
+            return new CompaniesNews(companies, news);
+
+          
+        }
+
+        public IActionResult StockstoInvest(string symbol)
+        {
+            string IEXTrading_API_PATH = BASE_URL + "stock/" + symbol + "/quote";
+            string quote = "";
+            StockstoInvest obj = new StockstoInvest();
+
+            // connect to the IEXTrading API and retrieve information
+            httpClient.BaseAddress = new Uri(IEXTrading_API_PATH);
+            HttpResponseMessage response = httpClient.GetAsync(IEXTrading_API_PATH).GetAwaiter().GetResult();
+
+            // read the Json objects in the API response
+            if (response.IsSuccessStatusCode)
+            {
+                quote = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+            }
+           
+            // now, parse the Json strings as C# objects
+            if (!quote.Equals(""))
+            {
+                int start = quote.IndexOf("{");
+                int end = quote.IndexOf("}");
+                quote = quote.Substring(start, end+1);
+                // https://stackoverflow.com/a/46280739
+                //JObject result = JsonConvert.DeserializeObject<JObject>(companyList);
+                obj = JsonConvert.DeserializeObject<StockstoInvest>(quote);
+            }
+
+            //  CompaniesNews companiesNews = getCompaniesNews(news);
+
+            CompaniestoInvest companiestoinvest = getCompaniestoInvest(obj);
+            return View(companiestoinvest);
+        }
+        public CompaniestoInvest getCompaniestoInvest(StockstoInvest cs)
+        {
+            List<Company> companies = dbContext.Companies.ToList();
+
+            return new CompaniestoInvest(companies, cs);
+        }
+        public IActionResult Aboutus()
+        {
+            return View();
+        }
     /// <summary>
     /// Delete all records from tables
     /// </summary>

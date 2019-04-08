@@ -1,72 +1,64 @@
-﻿@model CompaniesEquities
+﻿@model CompaniestoInvest
 
-@{
-    ViewData["Title"] = "Quote";
-}
-
-<h2>Chart</h2>
-<h4>Run symbols and save data if the drop down list is empty</h4>
-<hr />
-
-<form asp-controller="Home" asp-action="Chart" method="get">
+<form asp-controller="Home" asp-action="StockstoInvest" method="get">
     <select name="symbol">
         @foreach (var company in Model.Companies)
         {
             <option value=@company.symbol selected>@company.name</option>
         }
     </select>
-    <input type="submit" value="Get Chart" />
+    <input type="submit" value="Get Decision" />
 </form>
-@if (Model.Current != null)
+@if (Model.stockstoinvest != null)
 {
-    var equity = Model.Current;
+    var info = Model.stockstoinvest;
     <hr />
     <table>
         <tbody>
             <tr>
                 <td>
-                    Current Chart Data
                     <table>
+                        <tr>
+                            <td>
+                                Decision
+                            </td>
+                            <td>
+                                @info.decision
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Latest Price
+                            </td>
+                            <td>
+                                @info.latestPrice
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                52-week High
+                            </td>
+                            <td>
+                                @info.week52High
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                52-week Low
+                            </td>
+                            <td>
+                                @info.week52Low
+                            </td>
+                        </tr>
                         <tr>
                             <td>
                                 Symbol
                             </td>
                             <td>
-                                @equity.symbol
+                                @info.symbol
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                Open
-                            </td>
-                            <td>
-                                @equity.open
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                High
-                            </td>
-                            <td>
-                                @equity.high
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Close
-                            </td>
-                            <td>
-                                @equity.close
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Volume
-                            </td>
-                            <td>
-                                @equity.volume
-                            </td>
-                        </tr>
+
                     </table>
                 </td>
                 <td>
@@ -74,18 +66,8 @@
                         <canvas id="myChart" height="500" width="800"></canvas>
                     </div>
                 </td>
-                <td>
-                    <a asp-controller="Home" asp-action="SaveCharts" asp-route-symbol="@Model.Current.symbol">
-                        <h6 class="text-primary">
-                            Save Data
-                        </h6></a>
-                </td>
+                <td></td>
             </tr>
         </tbody>
     </table>
 }
-
-<script>
-    getChart("@Model.Dates", "@Model.Prices", "@Model.Volumes", @Model.AvgPrice, @Model.AvgVolume);
-    alertDbSave(@ViewBag.dbSuccessChart);
-</script>

@@ -1,31 +1,98 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>@ViewData["Title"] - API usage examples</title>
-  <link rel="stylesheet" href="~/css/site.css" />
-  @*<script type="text/javascript" src="~/js/Chart.min.js"></script>*@
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-  <script type="text/javascript" src="~/lib/chartjs-plugin-annotation-master/chartjs-plugin-annotation.min.js"></script>
-  <script type="text/javascript" src="~/js/site.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - API usage examples</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    @*<script type="text/javascript" src="~/js/Chart.min.js"></script>*@
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script type="text/javascript" src="~/lib/chartjs-plugin-annotation-master/chartjs-plugin-annotation.min.js"></script>
+    <script type="text/javascript" src="~/js/site.js"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous" />
+    <link rel="stylesheet"
+          href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+          crossorigin="anonymous" />
 </head>
 <body>
-  <nav>
+    <!--
+
     <div class="nav-bar">
-      <a asp-area="" asp-controller="Home" asp-action="Index">Home </a><text> | </text>
-      <a asp-area="" asp-controller="Home" asp-action="Symbols">Symbols </a><text> | </text>
-      <a asp-area="" asp-controller="Home" asp-action="Chart">Chart </a><text> | </text>
-      <a asp-area="" asp-controller="Home" asp-action="Refresh">Refresh </a><text> | </text>
+        <a asp-area="" asp-controller="Home" asp-action="Index">Home </a><text> | </text>
+        <a asp-area="" asp-controller="Home" asp-action="Symbols">Symbols </a><text> | </text>
+        <a asp-area="" asp-controller="Home" asp-action="Chart">Chart </a><text> | </text>
+        <a asp-area="" asp-controller="Home" asp-action="Refresh">Refresh </a><text> | </text>
+    </div>-->
+    <header class="header">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a href="" class="navbar-brand">
+                    <img src="app/logo.png" alt="" />Stock Exchange
+                </a>
+                <button class="navbar-toggler navbar-toggler-right"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="#navbarNav"
+                        aria-controls="navbarNav"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon">
+                        <i class="fas fa-arrow-alt-circle-down"></i>
+                    </span>
+                </button>
+                <div id="navbarNav" class="collapse navbar-collapse">
+                    <ul class="navbar-nav mx-auto ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Symbols">Symbols </a>
+
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Chart">Chart </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Refresh">Refresh </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="News">News </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="StockstoInvest">Intraday Decisions </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Aboutus">About us </a>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer class="text-primary">
+            <p>ISDS, Muma College of Business, University of South Florida</p>
+        </footer>
     </div>
-  </nav>
-  <div class="container body-content">
-    @RenderBody()
-    <hr />
-    <footer>
-      <p>ISDS, Muma College of Business, University of South Florida</p>
-    </footer>
-  </div>
-  @RenderSection("Scripts", required: false)
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    @RenderSection("Scripts", required: false)
+
 </body>
 </html>
